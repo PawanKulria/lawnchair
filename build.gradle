@@ -10,7 +10,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.1.0-alpha10'
+        classpath 'com.android.tools.build:gradle:7.1.0-alpha05'
         classpath PROTOBUF_CLASS_PATH
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'com.google.android.gms:oss-licenses-plugin:0.10.4'
@@ -136,6 +136,7 @@ android {
     flavorDimensions "app", "recents"
 
     productFlavors {
+        /*
         aosp {
             dimension "app"
             applicationId 'com.android.launcher3'
@@ -146,11 +147,11 @@ android {
             dimension "app"
             applicationId 'com.android.launcher3'
             testApplicationId 'com.android.launcher3.tests'
-        }
+        }*/
 
         lawn {
             dimension "app"
-            applicationId 'app.lawnchair'
+            applicationId 'com.nkart.launcher'
             testApplicationId 'com.android.launcher3.tests'
         }
 
@@ -186,6 +187,7 @@ android {
             manifest.srcFile "tests/AndroidManifest.xml"
         }
 
+        /*
         aosp {
             java.srcDirs = ['src_flags', 'src_shortcuts_overrides']
         }
@@ -211,6 +213,7 @@ android {
         l3goWithQuickstepDebug {
             manifest.srcFile "quickstep/AndroidManifest-launcher.xml"
         }
+         */
 
         lawn {
             java.srcDirs = ['src_flags', 'src_shortcuts_overrides', 'lawnchair/src']
