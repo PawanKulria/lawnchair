@@ -16,15 +16,7 @@
   -->
 
 <resources>
-    <dimen name="dynamic_grid_hotseat_size">70dp</dimen>
-    <dimen name="dynamic_grid_hotseat_top_padding">0dp</dimen>
-    <dimen name="dynamic_grid_hotseat_bottom_padding">72dp</dimen>
-
-    <dimen name="noqsb_hotseat_top_padding">8dp</dimen>
-    <dimen name="noqsb_hotseat_bottom_padding">2dp</dimen>
-
-    <dimen name="search_widget_top_shift">16dp</dimen>
-    <dimen name="search_widget_hotseat_height">56dp</dimen>
-
-    <dimen name="lawnchair_dialog_corner_radius">12dp</dimen>
+    <item type="id" name="font_base_icon" />
+    <item type="id" name="font_button" />
+    <item type="id" name="font_smartspace_text" />
 </resources>
