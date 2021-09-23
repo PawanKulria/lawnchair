@@ -12,7 +12,7 @@ import com.android.launcher3.R
 import com.android.launcher3.Utilities
 import com.android.launcher3.util.Themes
 
-const val LAWNCHAIR_BLUE: Long = 0xFF007FFF
+const val LAWNCHAIR_CYAN: Long = 0xFFFF6E40
 
 @JvmOverloads
 fun Context.getAccentColor(darkTheme: Boolean = Themes.getAttrBoolean(this, R.attr.isMainColorDark)): Int {

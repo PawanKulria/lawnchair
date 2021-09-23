@@ -54,5 +54,83 @@
                 <action android:name="android.accessibilityservice.AccessibilityService" />
             </intent-filter>
         </service>
+        <uses-library android:name="org.apache.http.legacy" android:required="false"/>
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="@string/admob_app_id"/>
+
+        <activity android:name="com.nkart.neo.ConsentActivityForSettings"
+            android:label="@string/lean_settings"
+            android:icon="@mipmap/ic_launcher_settings">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.APPLICATION_PREFERENCES" />
+            </intent-filter>
+        </activity>
+
+
+        <activity android:name="com.nkart.neo.ConsentActivityForWallpaper"
+            android:label="@string/wallpapers"
+            android:icon="@mipmap/ic_wallpaper">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name="com.nkart.neo.wallpapers.SplashActivity"
+            android:theme="@style/AppTheme2"
+            android:label="@string/wallpapers"
+            android:icon="@mipmap/ic_wallpaper"/>
+
+        <activity android:name="com.nkart.neo.wallpapers.MainActivityWallpapers"
+            android:theme="@style/AppTheme2">
+        </activity>
+        <activity android:name="com.nkart.neo.wallpapers.PicturesActivity"
+            android:theme="@style/AppTheme2"/>
+        <activity android:name="com.nkart.neo.wallpapers.SearchActivity"
+            android:theme="@style/AppTheme2"/>
+        <activity android:name="com.nkart.neo.wallpapers.WallpapersActivity"
+            android:theme="@style/AppTheme2"/>
+        <activity android:name="com.nkart.neo.wallpapers.ViewPhotoActivity"
+            android:theme="@style/AppTheme2"/>
+        <activity android:name="com.nkart.neo.ThemesWallsActivity"
+            android:label="@string/home_themes"
+            android:theme="@style/Theme"/>
+        <activity android:label="Consent Form"
+            android:name="com.nkart.neo.ConsentUpdateActivity"
+            android:autoRemoveFromRecents="true"/>
+
+        <receiver
+            android:name="com.nkart.neo.IconPackReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter >
+                <action android:name="com.nkart.launcher.setIconPack"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+
+        </receiver>
+        <provider
+            android:name="com.nkart.neo.wallpapers.model.LegacyCompatFileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths"/>
+        </provider>
+        <activity android:name="com.yalantis.ucrop.UCropActivity"
+            android:theme="@style/AppTheme2"/>
+
     </application>
 </manifest>

@@ -38,6 +38,10 @@ class LawnchairApp : Application() {
     val TAG = "LawnchairApp"
 
     override fun onCreate() {
+        try {
+            Class.forName("android.os.AsyncTask")
+        } catch (ignore: Throwable) {
+        }
         super.onCreate()
         instance = this
     }

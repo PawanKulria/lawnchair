@@ -8,22 +8,28 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
 import app.lawnchair.preferences.getAdapter
 import app.lawnchair.preferences.preferenceManager
-import app.lawnchair.ui.theme.LAWNCHAIR_BLUE
+import app.lawnchair.ui.theme.LAWNCHAIR_CYAN
 import com.android.launcher3.R
 
 val presetColors = listOf(
-    0xFFF32020,
-    0xFFF20D69,
-    0xFF7452FF,
-    0xFF2C41C9,
-    LAWNCHAIR_BLUE,
-    0xFF00BAD6,
-    0xFF00A399,
-    0xFF47B84F,
-    0xFFFFBB00,
-    0xFFFF9800,
-    0xFF7C5445,
-    0xFF67818E
+        0xFFFF5252,
+        0xFFFF4081,
+        0xFFE040FB,
+        0xFF7C4DFF,
+        0xFF536DFE,
+        0xFF448AFF,
+        0xFF40C4FF,
+        0xFF18FFFF,
+        0xFF64FFDA,
+        0xFF69F0AE,
+        0xFFB2FF59,
+        0xFFEEFF41,
+        0xFFFFFF00,
+        0xFFFFD740,
+        0xFFFFAB40,
+        LAWNCHAIR_CYAN,
+        0xFF607D8B,
+        0xFF9E9E9E
 )
 
 val presets = presetColors.map {

@@ -16,8 +16,13 @@
 
 package app.lawnchair
 
+import android.annotation.SuppressLint
+import android.app.WallpaperManager
+import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.IntentFilter
 import android.os.Bundle
+import android.util.Log
 import android.view.ViewTreeObserver
 import androidx.activity.OnBackPressedDispatcher
 import androidx.activity.OnBackPressedDispatcherOwner
@@ -39,11 +44,28 @@ import com.android.launcher3.statemanager.StateManager
 import com.android.launcher3.uioverrides.QuickstepLauncher
 import com.android.launcher3.uioverrides.states.OverviewState
 import com.android.systemui.plugins.shared.LauncherOverlayManager
+import com.google.ads.consent.*
+import com.google.ads.mediation.admob.AdMobAdapter
+import com.google.android.gms.ads.AdError
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.FullScreenContentCallback
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
+import com.nkart.neo.IconPackReceiver
+import com.nkart.neo.dialogs.WelcomeScreenDialog
+import com.nkart.neo.extra.Extra
+import com.nkart.neo.utils.Config
 import kotlinx.coroutines.launch
+import java.io.IOException
+import java.net.MalformedURLException
+import java.net.URL
 
 class LawnchairLauncher : QuickstepLauncher(), LifecycleOwner,
     SavedStateRegistryOwner, OnBackPressedDispatcherOwner {
-
+    private lateinit var broadcastReceiver: BroadcastReceiver
+    private lateinit var consentForm: ConsentForm
+    private lateinit var mInterstitialAd: InterstitialAd
     private val lifecycleRegistry = LifecycleRegistry(this)
     private val savedStateRegistryController = SavedStateRegistryController.create(this)
     private val _onBackPressedDispatcher = OnBackPressedDispatcher {
@@ -56,6 +78,7 @@ class LawnchairLauncher : QuickstepLauncher(), LifecycleOwner,
     override fun onCreate(savedInstanceState: Bundle?) {
         savedStateRegistryController.performRestore(savedInstanceState)
         super.onCreate(savedInstanceState)
+        broadcastReceiver = IconPackReceiver()
         lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_CREATE)
 
         prefs.launcherTheme.subscribeChanges(this, ::updateTheme)
@@ -86,6 +109,19 @@ class LawnchairLauncher : QuickstepLauncher(), LifecycleOwner,
                 }
             })
         }
+        val sharedPreferences = getSharedPreferences("first time", MODE_PRIVATE)
+        val firstTime = sharedPreferences.getBoolean("first", true)
+        val editor = sharedPreferences.edit()
+        if (firstTime && savedInstanceState == null) {
+            if (Extra.isInternetON()) {
+                collectConsent()
+            }
+            val welcomeScreenDialog = WelcomeScreenDialog(this)
+            welcomeScreenDialog.show()
+            editor.putBoolean("first", false)
+            editor.apply()
+            loadAd()
+        }
     }
 
     override fun setupViews() {
@@ -98,6 +134,8 @@ class LawnchairLauncher : QuickstepLauncher(), LifecycleOwner,
     override fun onStart() {
         super.onStart()
         lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START)
+        val intentFilter = IntentFilter("com.nkart.launcher.setIconPack")
+        registerReceiver(broadcastReceiver, intentFilter)
     }
 
     override fun onResume() {
@@ -191,6 +229,143 @@ class LawnchairLauncher : QuickstepLauncher(), LifecycleOwner,
         if (sRestartFlags == 0) {
             recreate()
         }
+    }
+    fun loadAd() {
+        val adRequest = AdRequest.Builder().build()
+        InterstitialAd.load(this, Config.ADMOB_SPLASH_LAUNCHER_ID, adRequest, object : InterstitialAdLoadCallback() {
+            override fun onAdLoaded(interstitialAd: InterstitialAd) {
+                // The mInterstitialAd reference will be null until
+                // an ad is loaded.
+                mInterstitialAd = interstitialAd
+                Log.i("TAG", "onAdLoaded")
+                mInterstitialAd.setFullScreenContentCallback(object : FullScreenContentCallback() {
+                    override fun onAdDismissedFullScreenContent() {
+                        // Called when fullscreen content is dismissed.
+                        Log.d("TAG", "The ad was dismissed.")
+                    }
+
+                    override fun onAdFailedToShowFullScreenContent(adError: AdError) {
+                        // Called when fullscreen content failed to show.
+                        Log.d("TAG", "The ad failed to show.")
+                    }
+
+                    override fun onAdShowedFullScreenContent() {
+                        // Called when fullscreen content is shown.
+                        // Make sure to set your reference to null so you don't
+                        // show it a second time.
+                   //     mInterstitialAd = null
+                        Log.d("TAG", "The ad was shown.")
+                    }
+                })
+            }
+
+            override fun onAdFailedToLoad(loadAdError: LoadAdError) {
+                // Handle the error
+                Log.i("TAG", loadAdError.message)
+            //    mInterstitialAd = null
+            }
+        })
+    }
+
+    @SuppressLint("ResourceType")
+    fun displayInterstitialAd() {
+        if (mInterstitialAd != null) {
+            mInterstitialAd.show(this)
+        }
+        val myWallpaperManager = WallpaperManager.getInstance(applicationContext)
+        try {
+            // Change the current system wallpaper
+            myWallpaperManager.setResource(R.drawable.default_wallpaper)
+        } catch (e: IOException) {
+            // TODO Auto-generated catch block
+        }
+    }
+    private fun collectConsent() {
+        val consentInformation = ConsentInformation.getInstance(this)
+        //    ConsentInformation.getInstance(this).setDebugGeography(DebugGeography.DEBUG_GEOGRAPHY_EEA);
+        val publisherIds = arrayOf("pub-8553297703763663")
+        //    ConsentInformation.getInstance(getApplicationContext()).addTestDevice("F1F48DA734221EE385D1F6C00CCB685D");
+        consentInformation.requestConsentInfoUpdate(publisherIds, object : ConsentInfoUpdateListener {
+            override fun onConsentInfoUpdated(consentStatus: ConsentStatus) {
+                // User's consent status successfully updated.
+                ConsentInformation.getInstance(applicationContext).isRequestLocationInEeaOrUnknown
+                //            Toast.makeText(getApplicationContext(), "User's consent status successfully updated.", Toast.LENGTH_SHORT).show();
+                if (consentInformation.isRequestLocationInEeaOrUnknown) {
+                    when (consentStatus) {
+                        ConsentStatus.PERSONALIZED -> {
+                        }
+                        ConsentStatus.NON_PERSONALIZED -> {
+                            Log.e("Log", consentStatus.toString())
+                            val extras = Bundle()
+                            extras.putString("npa", "1")
+                            val request = AdRequest.Builder()
+                                    .addNetworkExtrasBundle(AdMobAdapter::class.java, extras)
+                                    .build()
+                        }
+                        ConsentStatus.UNKNOWN -> {
+                            consentForm = makeConsentForm(this@LawnchairLauncher)
+                            consentForm.load()
+                        }
+                        else -> {
+                            consentForm = makeConsentForm(this@LawnchairLauncher)
+                            consentForm.load()
+                        }
+                    }
+                }
+            }
+
+            override fun onFailedToUpdateConsentInfo(errorDescription: String) {
+                // User's consent status failed to update.
+                //            Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_SHORT).show();
+            }
+        })
+    }
+
+    private fun makeConsentForm(context: Context): ConsentForm {
+        var privacyUrl: URL? = null
+        try {
+            privacyUrl = URL("http://pkulria.wixsite.com/nkart/single-post/2013/05/01/This-is-the-title-of-your-first-image-post")
+        } catch (e: MalformedURLException) {
+            e.printStackTrace()
+        }
+        return ConsentForm.Builder(context, privacyUrl)
+                .withListener(object : ConsentFormListener() {
+                    override fun onConsentFormLoaded() {
+                        //                    Toast.makeText(getApplicationContext(), "onConsentFormLoaded", Toast.LENGTH_SHORT).show();
+                        consentForm.show()
+                    }
+
+                    override fun onConsentFormOpened() {
+                        //                    Toast.makeText(getApplicationContext(), "onConsentFormOpened", Toast.LENGTH_SHORT).show();
+                    }
+
+                    override fun onConsentFormClosed(consentStatus: ConsentStatus, userPrefersAdFree: Boolean) {
+                        //    if (consentStatus== NON_PERSONALIZED)
+                        when (consentStatus) {
+                            ConsentStatus.PERSONALIZED -> {
+                            }
+                            ConsentStatus.NON_PERSONALIZED -> {
+                                val extras = Bundle()
+                                extras.putString("npa", "1")
+                                val request = AdRequest.Builder()
+                                        .addNetworkExtrasBundle(AdMobAdapter::class.java, extras)
+                                        .build()
+                            }
+                            ConsentStatus.UNKNOWN -> {
+                            }
+                            else -> {
+                            }
+                        }
+                    }
+
+                    override fun onConsentFormError(errorDescription: String) {
+                        Log.e("Log", errorDescription)
+                        //                    Toast.makeText(getApplicationContext(),errorDescription,Toast.LENGTH_LONG).show();
+                    }
+                })
+                .withNonPersonalizedAdsOption()
+                .withPersonalizedAdsOption()
+                .build()
     }
 
     companion object {

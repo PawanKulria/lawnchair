@@ -58,7 +58,7 @@ class PreferenceViewModel(application: Application) : AndroidViewModel(applicati
             IconPackInfo(
                 getApplication<Application>().resources.getString(R.string.system_icons),
                 "",
-                AppCompatResources.getDrawable(getApplication(), R.drawable.ic_launcher_home)!!
+                AppCompatResources.getDrawable(getApplication(), R.mipmap.ic_launcher)!!
             )
         )
 

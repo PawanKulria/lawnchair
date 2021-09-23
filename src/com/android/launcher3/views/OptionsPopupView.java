@@ -15,8 +15,6 @@
  */
 package com.android.launcher3.views;
 
-import static com.android.launcher3.Utilities.EXTRA_WALLPAPER_FLAVOR;
-import static com.android.launcher3.Utilities.EXTRA_WALLPAPER_OFFSET;
 import static com.android.launcher3.logging.StatsLogManager.LauncherEvent.IGNORE;
 import static com.android.launcher3.logging.StatsLogManager.LauncherEvent.LAUNCHER_SETTINGS_BUTTON_TAP_OR_LONGPRESS;
 import static com.android.launcher3.logging.StatsLogManager.LauncherEvent.LAUNCHER_WIDGETSTRAY_BUTTON_TAP_OR_LONGPRESS;
@@ -25,7 +23,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.text.TextUtils;
+import android.provider.Settings;
 import android.util.ArrayMap;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -49,6 +47,8 @@ import com.android.launcher3.shortcuts.DeepShortcutView;
 import com.android.launcher3.testing.TestLogging;
 import com.android.launcher3.testing.TestProtocol;
 import com.android.launcher3.widget.WidgetsFullSheet;
+import com.nkart.neo.ThemesWallsActivity;
+import com.nkart.neo.wallpapers.MainActivityWallpapers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -154,13 +154,16 @@ public class OptionsPopupView extends ArrowPopup
         RectF target = new RectF(x - halfSize, y - halfSize, x + halfSize, y + halfSize);
 
         ArrayList<OptionItem> options = new ArrayList<>();
-        int resString = Utilities.existsStyleWallpapers(launcher) ?
-                R.string.styles_wallpaper_button_text : R.string.wallpaper_button_text;
-        int resDrawable = Utilities.existsStyleWallpapers(launcher) ?
-                R.drawable.ic_palette : R.drawable.ic_wallpaper;
-        options.add(new OptionItem(resString, resDrawable,
+
+        options.add(new OptionItem(R.string.system_settings, R.drawable.ic_system_setting,
                 IGNORE,
-                OptionsPopupView::startWallpaperPicker));
+                OptionsPopupView::startSystemSetting));
+        options.add(new OptionItem(R.string.wallpaper_button_text, R.drawable.ic_wallpaper,
+                IGNORE,
+                OptionsPopupView::startWallpaper));
+        options.add(new OptionItem(R.string.tab_themes, R.drawable.ic_theme,
+                IGNORE,
+                OptionsPopupView::startThemes));
         if (!WidgetsModel.GO_DISABLE_WIDGETS) {
             options.add(new OptionItem(R.string.widget_button_text, R.drawable.ic_widget,
                     LAUNCHER_WIDGETSTRAY_BUTTON_TAP_OR_LONGPRESS,
@@ -171,6 +174,17 @@ public class OptionsPopupView extends ArrowPopup
                 OptionsPopupView::startSettings));
 
         show(launcher, target, options);
+    }
+
+    private static boolean startSystemSetting(View view) {
+        view.getContext().startActivity(new Intent(Settings.ACTION_SETTINGS));
+        return true;
+    }
+
+    private static boolean startThemes(View view) {
+        Intent intent = new Intent(view.getContext(), ThemesWallsActivity.class);
+        view.getContext().startActivity(intent);
+        return true;
     }
 
     public static boolean onWidgetsClicked(View view) {
@@ -201,27 +215,12 @@ public class OptionsPopupView extends ArrowPopup
     /**
      * Event handler for the wallpaper picker button that appears after a long press
      * on the home screen.
+     * @return
      */
-    public static boolean startWallpaperPicker(View v) {
-        Launcher launcher = Launcher.getLauncher(v.getContext());
-        if (!Utilities.isWallpaperAllowed(launcher)) {
-            Toast.makeText(launcher, R.string.msg_disabled_by_admin, Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        Intent intent = new Intent(Intent.ACTION_SET_WALLPAPER)
-                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                .putExtra(EXTRA_WALLPAPER_OFFSET,
-                        launcher.getWorkspace().getWallpaperOffsetForCenterPage());
-        if (!Utilities.existsStyleWallpapers(launcher)) {
-            intent.putExtra(EXTRA_WALLPAPER_FLAVOR, "wallpaper_only");
-        } else {
-            intent.putExtra(EXTRA_WALLPAPER_FLAVOR, "focus_wallpaper");
-        }
-        String pickerPackage = launcher.getString(R.string.wallpaper_picker_package);
-        if (!TextUtils.isEmpty(pickerPackage)) {
-            intent.setPackage(pickerPackage);
-        }
-        return launcher.startActivitySafely(v, intent, dummyInfo(intent), null);
+    public static boolean startWallpaper(View view) {
+        Intent intent = new Intent(view.getContext(), MainActivityWallpapers.class);
+        view.getContext().startActivity(intent);
+        return true;
     }
 
     static WorkspaceItemInfo dummyInfo(Intent intent) {

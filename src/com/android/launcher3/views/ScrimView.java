@@ -510,7 +510,7 @@ public class ScrimView<T extends Launcher> extends View implements Insettable, O
                 mLauncher.getStateManager().goToState(ALL_APPS);
                 return true;
             } else if (action == WALLPAPERS) {
-                return OptionsPopupView.startWallpaperPicker(ScrimView.this);
+                return OptionsPopupView.startWallpaper(ScrimView.this);
             } else if (action == WIDGETS) {
                 int originalImportanceForAccessibility = getImportantForAccessibility();
                 setImportantForAccessibility(IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);

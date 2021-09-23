@@ -18,6 +18,21 @@
 -->
 
 <resources>
+    <style name="AppTheme2" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimaryDarkTheme</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkDarkTheme</item>
+        <item name="colorAccent">@color/colorAccentDarkTheme</item>
+        <item name="android:windowBackground">@color/window_background_dark</item>
+    </style>
+
+    <!-- new Themes -->
+    <style name="Theme" parent="Theme.AppCompat.Light.DarkActionBar">
+
+        <item name="colorPrimary">@color/colorPrimaryDarkTheme</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkTheme</item>
+        <item name="colorAccent">@color/colorAccentDarkTheme</item>
+        <item name="android:windowActionBar">false</item>
+    </style>
     <!-- Launcher theme -->
     <style name="BaseLauncherTheme" parent="@android:style/Theme.Material.Light">
         <item name="android:colorBackgroundCacheHint">@null</item>
@@ -260,5 +275,133 @@
         <item name="android:colorPrimary">#9AA0A6</item>
         <item name="android:colorControlHighlight">#DFE1E5</item>
         <item name="android:colorForeground">@color/all_apps_bg_hand_fill_dark</item>
+    </style>
+    <style name="Widget.GetRecommendations.ButtonTextView" parent="@android:style/Widget.TextView">
+        <item name="android:textSize">@dimen/app_unit_medium_font_size</item>
+        <item name="android:textColor">@color/getrecommendations_highlight</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
+    <style name="Widget.GetRecommendations.CardTextView" parent="@android:style/Widget.TextView">
+        <item name="android:textSize">@dimen/app_unit_medium_font_size</item>
+        <item name="android:textColor">@color/getrecommendations_primary_dark</item>
+        <item name="android:lineSpacingExtra">8sp</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+    <style name="Widget.GetRecommendations.BodyTextView" parent="@android:style/Widget.TextView">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/body_text_color</item>
+        <item name="android:lineSpacingExtra">8sp</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="Widget.GetRecommendations.CardBodyTextView" parent="@style/Widget.GetRecommendations.BodyTextView">
+        <item name="android:textColor">@color/card_body_text_color</item>
+    </style>
+    <style name="DialogAlert" parent="@android:style/Theme.Material.Light.Dialog.Alert">
+        <item name="android:textColorPrimary">@color/primary_text_material_light</item>
+        <item name="android:textColorSecondary">@color/secondary_text_material_light</item>
+        <item name="android:textColorPrimaryInverse">?android:attr/textColorPrimary</item>
+        <item name="android:textColorSecondaryInverse">?android:attr/textColorSecondary</item>
+
+        <item name="android:colorPrimary">@color/colorPrimary</item>
+        <item name="android:colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="android:colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="Dialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">false</item>
+    </style>
+    <style name="shortcut_dialog_anim" parent="@android:style/Animation.Dialog">
+        <item name="android:windowEnterAnimation">@anim/bottom_up</item>
+        <item name="android:windowExitAnimation">@anim/bottom_down</item>
+    </style>
+    <style name="shuffle_dialog_anim" parent="@android:style/Animation.Dialog">
+        <item name="android:windowEnterAnimation">@anim/slide_in_from_top</item>
+        <item name="android:windowExitAnimation">@anim/slide_out_to_top</item>
+    </style>
+    <style name="custom_dialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <!-- Dialog的windowFrame框为无 -->
+        <item name="android:windowIsFloating">true</item>
+        <!-- 是否漂现在activity上 -->
+        <item name="android:windowIsTranslucent">true</item>
+        <!-- 是否半透明 -->
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <!-- 去除黑色边框的关键设置项 -->
+        <item name="android:backgroundDimEnabled">true</item>
+        <!-- 屏幕背景是否变暗 -->
+        <item name="android:backgroundDimAmount">0.6</item>
+    </style>
+
+    <style name="popupAnimation" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/pophide_anim</item>
+        <item name="android:windowExitAnimation">@anim/popshow_anim</item>
+    </style>
+    <style name="Item" parent="">
+        <item name="android:textColor">@color/primaryText</item>
+    </style>
+    <style name="Item.Path">
+        <item name="android:layout_width">@dimen/item_circle_size_path</item>
+        <item name="android:layout_height">@dimen/item_circle_size_path</item>
+        <item name="android:textSize">@dimen/item_font_size_path</item>
+        <item name="android:background">@drawable/path_share_oval</item>
+    </style>
+    <style name="Wall">
+        <item name="android:layout_width">@dimen/item_circle_size_path</item>
+        <item name="android:layout_height">@dimen/item_circle_size_path</item>
+        <item name="android:textSize">@dimen/item_font_size_path</item>
+        <item name="android:background">@drawable/path_wall_oval</item>
+    </style>
+    <style name="Save">
+        <item name="android:layout_width">@dimen/item_circle_size_path</item>
+        <item name="android:layout_height">@dimen/item_circle_size_path</item>
+        <item name="android:textSize">@dimen/item_font_size_path</item>
+        <item name="android:background">@drawable/path_save_oval</item>
+    </style>
+    <style name="Favorite">
+        <item name="android:layout_width">@dimen/item_circle_size_path</item>
+        <item name="android:layout_height">@dimen/item_circle_size_path</item>
+        <item name="android:textSize">@dimen/item_font_size_path</item>
+        <item name="android:background">@drawable/path_favorite_oval</item>
+    </style>
+    <style name="Flag">
+        <item name="android:layout_width">@dimen/item_circle_size_path</item>
+        <item name="android:layout_height">@dimen/item_circle_size_path</item>
+        <item name="android:textSize">@dimen/item_font_size_path</item>
+        <item name="android:background">@drawable/path_flag_oval</item>
+    </style>
+    <style name="Info">
+        <item name="android:layout_width">@dimen/item_circle_size_path</item>
+        <item name="android:layout_height">@dimen/item_circle_size_path</item>
+        <item name="android:textSize">@dimen/item_font_size_path</item>
+        <item name="android:background">@drawable/path_flag_oval</item>
+    </style>
+    <style name="Wall_Options">
+        <item name="android:layout_width">@dimen/item_circle_size_path_main</item>
+        <item name="android:layout_height">@dimen/item_circle_size_path_main</item>
+        <item name="android:textSize">@dimen/item_font_size_path</item>
+        <item name="android:background">@drawable/path_wall_options_oval</item>
+    </style>
+    <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/scale_popup_open</item>
+        <item name="android:windowExitAnimation">@anim/scale_popup_close</item>
+    </style>
+    <style name="DialogActivityAnimation">
+        <item name="android:windowEnterAnimation">@anim/enter_activity_in</item>
+        <item name="android:windowExitAnimation">@anim/enter_activity_out</item>
+    </style>
+
+    <style name="CardViewStyle.Custom" parent="CardView">
+        <item name="cardBackgroundColor">@color/custom_card_background</item>
+        <item name="cardUseCompatPadding">true</item>
+        <item name="cardCornerRadius">20dp</item>
     </style>
 </resources>

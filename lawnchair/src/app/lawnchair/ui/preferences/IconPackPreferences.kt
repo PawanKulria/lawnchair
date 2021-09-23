@@ -17,6 +17,7 @@
 package app.lawnchair.ui.preferences
 
 import android.graphics.drawable.Drawable
+import android.util.Log
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.RadioButton
@@ -55,7 +56,8 @@ fun IconPackPreferences() {
                 onClick = { iconPackPackage = iconPack.packageName },
                 showDivider = index != 0,
                 widgetSize = 24.dp,
-            ) {
+            )
+            {
                 RadioButton(
                     selected = iconPackPackage == iconPack.packageName,
                     onClick = null,
@@ -65,5 +67,6 @@ fun IconPackPreferences() {
                 )
             }
         }
+        Log.d("iconpackprefences", iconPackPackage)
     }
 }

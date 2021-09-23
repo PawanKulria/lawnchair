@@ -30,16 +30,27 @@
         android:layout_height="match_parent"
         android:tag="qsb_view"
         tools:ignore="FragmentTagUsage" />
-
+    <LinearLayout
+        android:id="@+id/ll_search_container_all_apps"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="bottom"
+        android:layout_gravity="bottom"
+        android:background="@drawable/search_all_apps_bg"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:visibility="invisible">
     <com.android.launcher3.ExtendedEditText
         android:id="@+id/fallback_search_view"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
+        android:layout_weight="6"
         android:layout_height="@dimen/all_apps_search_bar_field_height"
         android:layout_gravity="center"
-        android:background="@drawable/bg_all_apps_searchbox"
+        android:background="@color/transparent"
         android:elevation="1.5dp"
         android:focusableInTouchMode="true"
-        android:gravity="center"
+        android:gravity="start"
         android:hint="@string/all_apps_search_bar_hint"
         android:imeOptions="actionSearch|flagNoExtractUi"
         android:inputType="text|textNoSuggestions|textCapWords"
@@ -52,4 +63,21 @@
         android:textColorHint="@drawable/all_apps_search_hint"
         android:textSize="16sp"
         android:visibility="invisible" />
+    <ImageView
+        android:id="@+id/id_themes"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|center_vertical"
+        android:gravity="center"
+        android:src="@drawable/ic_themes" />
+    <ImageView
+        android:id="@+id/id_wallpapers"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|center_vertical"
+        android:gravity="center"
+        android:src="@drawable/ic_wallpapers" />
+</LinearLayout>
 </app.lawnchair.nexuslauncher.AllAppsHotseatQsb>

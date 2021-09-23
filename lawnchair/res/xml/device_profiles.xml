@@ -153,7 +153,7 @@
         launcher:name="normal"
         launcher:numRows="5"
         launcher:numColumns="5"
-        launcher:numAllAppsColumns="5"
+        launcher:numAllAppsColumns="4"
         launcher:numFolderRows="4"
         launcher:numFolderColumns="4"
         launcher:numHotseatIcons="5"

@@ -92,6 +92,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.animation.OvershootInterpolator;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.CallSuper;
@@ -191,6 +192,9 @@ import com.android.systemui.plugins.shared.LauncherExterns;
 import com.android.systemui.plugins.shared.LauncherOverlayManager;
 import com.android.systemui.plugins.shared.LauncherOverlayManager.LauncherOverlay;
 import com.android.systemui.plugins.shared.LauncherOverlayManager.LauncherOverlayCallbacks;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.nkart.neo.ThemesWallsActivity;
+import com.nkart.neo.wallpapers.MainActivityWallpapers;
 
 import java.io.FileDescriptor;
 import java.io.PrintWriter;
@@ -209,6 +213,9 @@ import java.util.stream.Stream;
 public class Launcher extends StatefulActivity<LauncherState> implements LauncherExterns,
         Callbacks, InvariantDeviceProfile.OnIDPChangeListener, PluginListener<OverlayPlugin> {
     public static final String TAG = "Launcher";
+
+    private ImageView shuffleIconThemes,shuffleIconWallpapers,shuffleIcon_two;
+    private InterstitialAd mInterstitialAd,mInterstitialAd2;
 
     public static final ActivityTracker<Launcher> ACTIVITY_TRACKER = new ActivityTracker<>();
 
@@ -1167,8 +1174,37 @@ public class Launcher extends StatefulActivity<LauncherState> implements Launche
         mDropTargetBar.setup(mDragController);
 
         mAllAppsController.setupViews(mAppsView, mScrimView);
+
+        shuffleIconWallpapers=findViewById(R.id.id_wallpapers);
+
+        if(shuffleIconWallpapers!=null){
+            shuffleIconWallpapers.setOnClickListener(v -> {
+                if (mInterstitialAd2 != null){
+                    mInterstitialAd2.show(Launcher.this);
+                } else {
+                    startWallpaper();
+                }
+            });
+        }
+
+        shuffleIconThemes=findViewById(R.id.id_themes);
+
+        if(shuffleIconThemes!=null){
+            shuffleIconThemes.setOnClickListener(v ->
+                    onClickThemesButton(v));
+        }
     }
 
+    private void startWallpaper() {
+        Intent intent = new Intent(this, MainActivityWallpapers.class);
+        startActivity(intent);
+        overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+    }
+
+    public void onClickThemesButton(View v){
+        Intent intent = new Intent(Launcher.this, ThemesWallsActivity.class);
+        startActivity(intent);
+    }
     /**
      * Creates a view representing a shortcut.
      *

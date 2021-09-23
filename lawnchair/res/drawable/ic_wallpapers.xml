@@ -1,0 +1,9 @@
+<!-- drawable/image_filter_hdr.xml -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:height="30dp"
+    android:width="30dp"
+    android:viewportWidth="30"
+    android:viewportHeight="25"
+    android:tint="?android:attr/textColorPrimary">
+    <path android:fillColor="@android:color/white" android:pathData="M14,6L10.25,11L13.1,14.8L11.5,16C9.81,13.75 7,10 7,10L1,18H23L14,6Z" />
+</vector>

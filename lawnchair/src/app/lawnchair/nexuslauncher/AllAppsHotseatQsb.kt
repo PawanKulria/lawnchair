@@ -14,6 +14,7 @@ import android.view.View
 import android.view.animation.Interpolator
 import android.widget.EditText
 import android.widget.FrameLayout
+import android.widget.LinearLayout
 import androidx.core.graphics.ColorUtils
 import androidx.recyclerview.widget.RecyclerView
 import app.lawnchair.allapps.LawnchairAppSearchAlgorithm
@@ -51,6 +52,7 @@ class AllAppsHotseatQsb @JvmOverloads constructor(
     private lateinit var mAppsView: AllAppsContainerView
     private lateinit var mSearchWrapperView: View
     private lateinit var mFallbackSearchView: ExtendedEditText
+    private lateinit var LLSearchAllApps: LinearLayout
 
     private val enableHotseatQsb by PreferenceManager.getInstance(context).enableHotseatQsb
 
@@ -63,16 +65,17 @@ class AllAppsHotseatQsb @JvmOverloads constructor(
         super.onFinishInflate()
         mFallbackSearchView = findViewById(R.id.fallback_search_view)
         mSearchWrapperView = findViewById(R.id.search_wrapper_view)
+        LLSearchAllApps = findViewById(R.id.ll_search_container_all_apps)
         val accentColor = Themes.getColorAccent(context)
         val spanned = SpannableString("  " + mFallbackSearchView.hint)
-        spanned.setSpan(
+   /*     spanned.setSpan(
             TintedDrawableSpan(context, R.drawable.ic_allapps_search),
             0, 1, Spannable.SPAN_EXCLUSIVE_INCLUSIVE
-        )
+        )*/
 
         mFallbackSearchView.apply {
             hint = spanned
-            setHintTextColor(accentColor)
+        //    setHintTextColor(accentColor)
             setCursorColor(accentColor)
             setTextSelectHandleColor(accentColor)
 
@@ -224,6 +227,7 @@ class AllAppsHotseatQsb @JvmOverloads constructor(
         val showAllAppsMode = visibleElements and LauncherState.ALL_APPS_CONTENT != 0
         setter.setViewAlpha(mSearchWrapperView, if (showHotseatMode) 1f else 0f, Interpolators.LINEAR)
         setter.setViewAlpha(mFallbackSearchView, if (showAllAppsMode) 1f else 0f, Interpolators.LINEAR)
+        setter.setViewAlpha(LLSearchAllApps, if (showAllAppsMode) 1f else 0f, Interpolators.LINEAR)
     }
 
     override fun setTextSearchEnabled(isEnabled: Boolean): EditText {

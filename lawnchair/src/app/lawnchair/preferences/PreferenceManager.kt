@@ -20,7 +20,7 @@ import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import app.lawnchair.LawnchairLauncher
-import app.lawnchair.ui.theme.LAWNCHAIR_BLUE
+import app.lawnchair.ui.theme.LAWNCHAIR_CYAN
 import com.android.launcher3.InvariantDeviceProfile
 import com.android.launcher3.LauncherAppState
 import com.android.launcher3.Utilities
@@ -74,19 +74,19 @@ class PreferenceManager private constructor(private val context: Context) : Base
     val useFuzzySearch = BoolPref("pref_useFuzzySearch", false)
 
     // TODO: Add the ability to manually delete empty pages.
-    val allowEmptyPages = BoolPref("pref_allowEmptyPages", false)
-    val drawerOpacity = FloatPref("pref_drawerOpacity", 1F, reloadGrid)
+    val allowEmptyPages = BoolPref("pref_allowEmptyPages", true)
+    val drawerOpacity = FloatPref("pref_drawerOpacity", 0.8F, reloadGrid)
     val coloredBackgroundLightness = FloatPref("pref_coloredBackgroundLightness", 0.9F, reloadIcons)
     val feedProvider = StringPref("pref_feedProvider", "")
     val ignoreFeedWhitelist = BoolPref("pref_ignoreFeedWhitelist", false)
     val workspaceDt2s = BoolPref("pref_doubleTap2Sleep", true)
-    val launcherTheme = StringPref("pref_launcherTheme", "system")
+    val launcherTheme = StringPref("pref_launcherTheme", "dark")
     val clearAllAsAction = BoolPref("pref_clearAllAsAction", false)
     val overrideWindowCornerRadius = BoolPref("pref_overrideWindowCornerRadius", false, recreate)
     val windowCornerRadius = IntPref("pref_windowCornerRadius", 80, recreate)
     val autoLaunchRoot = BoolPref("pref_autoLaunchRoot", false)
     val useSystemAccent = BoolPref("pref_useSystemAccent", Utilities.ATLEAST_S, recreate)
-    val accentColor = IntPref("pref_accentColor", LAWNCHAIR_BLUE.toInt(), recreate)
+    val accentColor = IntPref("pref_accentColor", LAWNCHAIR_CYAN.toInt(), recreate)
     val wallpaperScrolling = BoolPref("pref_wallpaperScrolling", true)
     val showSysUiScrim = BoolPref("pref_showSysUiScrim", true)
     val showStatusBar = BoolPref("pref_showStatusBar", true, recreate)
