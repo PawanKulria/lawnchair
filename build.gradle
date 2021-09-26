@@ -74,7 +74,7 @@ android {
         minSdkVersion 25
         targetSdkVersion 30
         versionCode 64
-        def versionDisplayName = "version 2"
+        def versionDisplayName = "XI"
         def majorVersion = versionDisplayName.split("\\.")[0]
         versionName "${versionDisplayName} (${commitHash()})"
         buildConfigField "String", "VERSION_DISPLAY_NAME", "\"${versionDisplayName}\""
